@@ -1,0 +1,7 @@
+React 
+Node js
+express js
+Chakra ui 
+react Dom 
+axios => we use to fectch api
+context api
