@@ -20,5 +20,6 @@ app.use("/api/user",userRoutes);
 app.use("/api/chat",chatroutes);
 app.use("/api/message",messageroutes);
 // app.post("/api/user",registerUser);
-const PORT = process.env.PORT|| 5000;
+console.log(process.env.PORT);
+const PORT = process.env.PORT;
 app.listen(PORT, console.log(`hello world ${PORT}`)); //creating server
