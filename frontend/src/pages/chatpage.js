@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Box, Button } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Box } from "@chakra-ui/react";
 import { useChatState } from "../context/chatprovider";
 import Mychat from "../components/miscellaneous/Mychat";
 import ChatBox from "../components/miscellaneous/ChatBox";
 import Side from "../components/miscellaneous/sided";
+import { useState } from "react";
 const Chatpage = () => {
   const {user} = useChatState();
+  const [fetchagain, setfetchagain] = useState(false);
   return (
     <div style={{width:"100%"}}>
       {user && <Side/>}
@@ -18,8 +17,8 @@ const Chatpage = () => {
       p = '10px'
       h = '91.5vh'
       >
-        {user && <Mychat/>}
-        {user && <ChatBox/>}
+        {user && <Mychat fetchagain = {fetchagain}/>}
+        {user && <ChatBox fetchagain = {fetchagain} setfetchagain={setfetchagain}/>}
       </Box>
     </div>
   );

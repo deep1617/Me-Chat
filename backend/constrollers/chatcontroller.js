@@ -1,11 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require('../models/chatmodel');
 const User = require('../models/UserModel');
-
 //access chat between two user
 const accesschat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
-
+  console.log(req.body);
   if (!userId) {
     res.status(400).json({ message: "Please enter the user ID properly" });
     return;
@@ -40,7 +39,7 @@ const accesschat = asyncHandler(async (req, res) => {
       res.status(200).json(fullChat);
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: "yaha lag rahi gaand" });
   }
 });
 

@@ -43,19 +43,17 @@ const Login = () => {
               duration: 3000,
               isClosable: true,
             });
-            // console.log(data.token);
             localStorage.setItem("userInfo",JSON.stringify(data));
             history.push('/chats')
         }
         catch(err){
           toast({
             title: "Error",
-            description: err.response.data,
+            description: "Login Failed",
             status: "error",
             duration: 3000,
             isClosable: true,
           });
-          console.log("fsaf");
         }
     }
   return (

@@ -1,10 +1,8 @@
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
   Tooltip,
   Text,
-  Flex,
   MenuButton,
   Menu,
   MenuList,
@@ -14,12 +12,13 @@ import {
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min.js";
 import Profile from "./Profile";
+import { useChatState } from "../../context/chatprovider";
+import Drawer1 from "./drawer";
 const Side = () => {
   const [search, setsearch] = useState("");
-  const [searchR, setsearchR] = useState([]);
-  const [load, setload] = useState(false);
   const [loadChat, setloadChat] = useState();
   const history = useHistory();
+  const {user} = useChatState();
   const logout = ()=>{
     localStorage.removeItem("userInfo");
     history.push("/");
@@ -38,12 +37,9 @@ const Side = () => {
         py={2}
         border={"5px"}
       >
-        <Tooltip label="Search Users" hasArrow placement="bottom-end">
+        <Tooltip  hasArrow placement="bottom-end">
           <Button variant="ghost" borderRadius={"5px"}>
-            <i className="fas fa-search"></i>
-            <Text d={{ base: "none", md: "flex" }} px={2}>
-              Search User
-            </Text>
+            <Drawer1 search={search} setsearch = {setsearch} />
           </Button>
         </Tooltip>
         <Text marginRight={"100px"} fontSize={"26px"} display={"flex"}>
@@ -68,10 +64,12 @@ const Side = () => {
           </Menu>
           <Menu>
             <MenuButton as={Button}>
-              <Avatar size="sm" cursor={"pointer"}></Avatar>
+              <Avatar size="sm" cursor={"pointer"} name={user.name}></Avatar>
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={myprofile}>My Profile </MenuItem>
+              <MenuItem>
+                <Profile user={user} children={"My Profile"} />
+              </MenuItem>
               <MenuItem onClick={logout}>Logout</MenuItem>
             </MenuList>
           </Menu>

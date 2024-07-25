@@ -1,18 +1,16 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/UserModel");
 const generateToken = require("../config/genratetoken");
-//@description     Register new user
-//@route           POST /api/user/
-//@access          Public
-const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, pass, pic } = req.body;
-    // console.log(req.body);
-    // console.log("hello");
-    console.log(name);
-    console.log(email);
-    console.log(pass);
+const registerUser = asyncHandler(async (req, res,next) => {
+  
+  // return res.sendStatus(200).send('ok');
+  console.log(req.body);
+  const { name, email, pass } = req.body;
+    console.log(req.file);
     const password = pass;
-  if (!name || !email || !password) {
+    const pic = req.file?.filename;
+    console.log(pic);
+  if (!name || !email || !password  || !pic) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
@@ -36,15 +34,14 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-    //   isAdmin: user.isAdmin,
       pic: user.pic,
-      // user : user.password,
       token: generateToken(user._id),
     });
   } else {
     res.status(400);
     throw new Error("User not found");
   }
+  next();
 });
 const authUser = asyncHandler(async (req,res)=>{
     const {email,pass}  = req.body;
@@ -52,13 +49,11 @@ const authUser = asyncHandler(async (req,res)=>{
     const user = await User.findOne({email});
     const flag = ((await user.matchPassword(password)))
     if (user && flag) {
-      console.log("fasjf");
       res.status(200).json({
         _id: user._id,
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
-        // pass: user.password,
         token: generateToken(user._id),
         pic: user.pic,
       });
@@ -76,6 +71,7 @@ const allUsers = asyncHandler(async (req,res)=>{
             ],
           }
         : {};
+
           // console.log(req.user._id);
       const users = await User.find(keyword).find({
         _id: { $ne: req.user._id },

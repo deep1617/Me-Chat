@@ -10,6 +10,9 @@ const Homepage = () => {
     if(userinfo){
         history.push("/chats")
     }
+      else{
+        history.push("/");
+      }
   },[history])
   return (
     <Container maxW="x1" centerContent>

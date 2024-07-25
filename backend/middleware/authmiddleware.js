@@ -6,19 +6,15 @@ const JWT_SECRET =
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
-  // console.log(req.headers.authorization);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-
-      //decodes token id
+      console.log(token);;
       const decoded = jwt.verify(token, JWT_SECRET);
-
       req.user = await User.findById(decoded.id).select("-password");
-      console.log(req.body);
       next();
     } catch (error) {
       res.status(401);

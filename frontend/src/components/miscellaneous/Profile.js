@@ -9,25 +9,49 @@ import {
   ModalCloseButton,
   useDisclosure,
   Button,
-  Lorem,
+  Image
 } from "@chakra-ui/react";
-const Profile = () => {
+import { useState,useEffect } from 'react';
+const Profile = ({user,children}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [imagePath, setImagePath] = useState(null);
+
+  useEffect(() => {
+    const loadImage = async () => {
+      const imageModule = await import(`../../../../uploads/${user.pic}`);
+      setImagePath(imageModule.default);
+    };
+    loadImage();
+  }, []);
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
-
+      {children ? (
+        <span onClick={onOpen}>{children}</span>
+      ) : (
+        <i class="fa fa-eye" aria-hidden="true" onClick={onOpen} style={{marginLeft : "650px",display : "flex"}}></i>
+      )}
+      {/* {console.log(user)} */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>{user.name}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            Hello my name is
+          <ModalBody textAlign={"center"}>
+            <Image
+            marginLeft={130}
+            marginBottom={5}
+            borderRadius={"full"}
+            boxSize={"150px"}
+            src = {imagePath}
+            alt= {`../../../../uploads/${user.pic}`}
+            >
+
+            </Image>
+            {user.email}
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button colorScheme="green" mr={3} onClick={onClose}>
               Close
             </Button>
           </ModalFooter>
